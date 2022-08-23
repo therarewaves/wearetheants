@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>We are the ants</title>
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="icon" href="static/icons/ant.png" type="image/icon type">
+</head>
+<body>
+<div class="main_container"></div>
+<div class="loading">Loading...</div>
+<script type="application/javascript">
+    window.onload = async () => {
+        const container = document.querySelector('.main_container'),
+            loading = document.querySelector('.loading'),
+            {loadGame, preloadAssets, assets, cssVariables, sleep} = await import('./wata.min.js');
+        await preloadAssets(assets, cssVariables, true);
+        await sleep(300);
+        loading.remove();
+        void loadGame(container);
+    }
+</script>
+</body>
+</html>

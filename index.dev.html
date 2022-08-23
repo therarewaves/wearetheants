@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>We are the ants [DEV]</title>
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="icon" href="static/icons/ant.png" type="image/icon type">
+</head>
+<body>
+<script type="application/javascript">
+    const container = document.createElement('div')
+    container.className = 'main_container'
+    document.body.insertAdjacentElement('beforeend', container)
+
+    window.onload = async () => {
+        const loading = document.createElement('div')
+        loading.className = 'loading'
+        loading.innerText = 'Loading...'
+        document.body.insertAdjacentElement('beforeend', loading)
+
+        const {preloadAssets} = await import('./sources/game/preloader.js')
+        const {assets, cssVariables} = await import('./sources/game/assets.js')
+        await preloadAssets(assets, cssVariables)
+
+        const {loadGame} = await import(`./sources/game.js`)
+
+        const {sleep} = await import('./sources/engine/misc.js')
+        await sleep(300)
+
+        loading.remove()
+
+        void loadGame(container)
+    }
+</script>
+</body>
+</html>
