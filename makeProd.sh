@@ -1,6 +1,7 @@
 declare ver='v42.283'
 
 # static files
+mkdir -p './prod/static/'
 cp -R ./static/ ./prod/static/
 
 # html
