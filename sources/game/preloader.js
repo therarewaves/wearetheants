@@ -23,6 +23,7 @@ export const loadDataFromLocalStorage = key => {
         return `data:${data.type}/${data.ext};base64,${data.value}`
     } catch (error) {
         console.error(`Cannot load file from the local storage: ${key}`)
+        return key
     }
 }
 
