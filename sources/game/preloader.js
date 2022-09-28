@@ -77,14 +77,9 @@ const _preloadData = (type, data, left, total) =>
                                     type: type, value: value, ext: getFileExt(src)
                                 }))
 
-                            if (getFileExt(src) === 'gif') {
-                                const blob = await loadXHR(src)
-                                const reader = new FileReader()
-                                reader.onloadend = () =>
-                                    saveImage(reader.result.replace(/^data:image\/(png|gif);base64,/, ''))
-                                if (blob && blob.constructor.name === 'Blob')
-                                    reader.readAsDataURL(Object(blob))
-                            } else
+                            if (getFileExt(src) === 'gif')
+                                await saveGif(saveImage, src)
+                            else
                                 saveImage(getBase64Image(obj))
                             break
                     }
@@ -92,6 +87,21 @@ const _preloadData = (type, data, left, total) =>
                 }
         })
     })
+
+const saveGif = async (saveImage, gifSrc) => {
+    const blob = await loadXHR(gifSrc)
+
+    new Promise((resolve) => {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+            saveImage(reader.result.replace(/^data:image\/(png|gif);base64,/, ''))
+            resolve(true)
+        }
+
+        if (blob && blob.constructor.name === 'Blob')
+            reader.readAsDataURL(Object(blob))
+    })
+}
 
 const loadXHR = url =>
     new Promise((resolve, reject) => {
