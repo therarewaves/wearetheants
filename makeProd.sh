@@ -1,4 +1,4 @@
-declare ver='v42.283'
+declare ver='v42.285'
 
 # static files
 mkdir -p './prod/static/'
